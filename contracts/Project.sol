@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity ^0.8.0;
+pragma solidity >=0.8.0 <0.8.9;
+import "@openzeppelin/contracts/proxy/utils/Initializable.sol";
 
 /**
- * @title Test contract
- * @dev Crowdfundging
+ * @title Project contract
+ * @dev CrowdFunding
  */
-contract Project {
+contract Project is Initializable {
     mapping(address => uint256) public fundContributors;
     address public manager;
     uint256 public deadline;
@@ -22,7 +23,10 @@ contract Project {
     mapping(uint256 => Request) public requests;
     uint256 public numRequests;
 
-    constructor(uint256 _targetAmount, uint256 _deadline) {
+    function initialize(uint256 _targetAmount, uint256 _deadline)
+        public
+        initializer
+    {
         targetAmount = _targetAmount;
         deadline = block.timestamp + _deadline;
         manager = msg.sender;
